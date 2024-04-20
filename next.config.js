@@ -1,0 +1,19 @@
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  webpack: (config, { dev, isServer }) => {
+    if (!dev && !isServer) {
+      // Production Mode 에서는 react -> preact 로 교체
+      Object.assign(config.resolve.alias, {
+        "react/jsx-runtime.js": "preact/compat/jsx-runtime",
+        react: "preact/compat",
+        "react-dom/test-utils": "preact/test-utils",
+        "react-dom": "preact/compat",
+      });
+    }
+    return config;
+  },
+  reactStrictMode: true,
+  swcMinify: true,
+};
+// const withPreact = require("next-plugin-preact");
+module.exports = nextConfig;

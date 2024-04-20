@@ -1,0 +1,32 @@
+{
+  "name": "next-with-preact",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@next/eslint-plugin-next": "^14.2.2",
+    "next": "14.2.2",
+    "next-plugin-preact": "^3.0.7",
+    "preact": "^10.20.2",
+    "preact-render-to-string": "^6.4.2",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-ssr-prepass": "npm:preact-ssr-prepass@^1.2.1",
+    "regenerator-runtime": "^0.14.1"
+  },
+  "devDependencies": {
+    "@babel/plugin-transform-react-jsx": "^7.23.4",
+    "@babel/preset-env": "^7.24.4",
+    "@types/node": "20.12.7",
+    "@types/react": "18.2.79",
+    "eslint": "9.1.0",
+    "eslint-config-next": "14.2.2",
+    "prettier": "^3.2.5",
+    "typescript": "^5.4.5"
+  }
+}
