@@ -1,34 +1,110 @@
 'use client';
+import dotenv from 'dotenv';
+dotenv.config();
 
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/QCEVL1cv0el
- * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
- */
 import { Avatar, Button } from '@nextui-org/react';
-import { ResponsiveLine } from '@nivo/line';
-import MODULE_CardUI from './Card/ui';
-import { useEffect } from 'react';
+import MODULE_CardUI from './Card';
+import { ResponsiveBarChart } from './BarChart';
+import { diskChartData } from '../model/handlers';
+import { useEffect, useState } from 'react';
+import { ServerStatusProps } from '../../../types/server';
 
-export default function Component() {
-  const getAPI = async () => {
-    try {
-      const response = await fetch('/api/status');
-      if (response.ok) {
-        const data = await response.json();
-        console.log({ data });
-      }
-    } catch (error) {
-      console.error('API 호출 중 에러 발생:', error);
-    }
+interface initialState {
+  size: number | '';
+  used: number | '';
+  avail: number | '';
+  capacity: number | '';
+  filesystem: string;
+  timestamp: string | undefined;
+}
+
+export default function RootUIComponent({
+  rawData,
+}: {
+  rawData: ServerStatusProps;
+}) {
+  const [serverDiskStatus, setServerDiskStatus] = useState<initialState>({
+    size: 0,
+    used: 0,
+    avail: 0,
+    capacity: 0,
+    filesystem: '',
+    timestamp: undefined,
+  });
+
+  // useEffect(() => {
+  //   fetchServerStatusData();
+  // }, [serverDiskStatus]);
+
+  const initServerStatus = (formattedData: {
+    size: number | '';
+    used: number | '';
+    avail: number | '';
+    capacity: number | '';
+    filesystem: string;
+  }) => {
+    setServerDiskStatus({
+      size: formattedData?.size,
+      used: formattedData?.used,
+      avail: formattedData?.avail,
+      capacity: formattedData?.capacity,
+      filesystem: formattedData?.filesystem,
+      timestamp: rawData?.timestamp,
+    });
   };
 
   useEffect(() => {
-    getAPI();
-  }, []);
+    // console.log({ rawData });
+    const formattedRawData = diskChartData(rawData);
+    initServerStatus(formattedRawData);
+  }, [rawData]);
+  // if (isPending) {
+  //   return <span>Loading...</span>;
+  // }
+
+  // if (isError) {
+  //   return <span>Error</span>;
+  // }
+
+  const serverName = process.env.NEXT_PUBLIC_TARGET_SERVER_NAME || '';
+
+  const percentData = {
+    usage: serverDiskStatus.capacity,
+  };
+
+  const chartData = {
+    usage: [
+      {
+        server: serverName,
+        avail: serverDiskStatus.avail,
+        used: serverDiskStatus.used,
+      },
+    ],
+  };
+
+  const chartKeys: {
+    [key: string]: string[];
+  } = {
+    usage: ['avail', 'used'],
+  };
+
+  const chartColors = {
+    usage: {
+      avail: '#51b811',
+      used: '#eb5228',
+    },
+  };
+
+  const usageChart = (
+    <ResponsiveBarChart
+      data={chartData.usage}
+      keys={chartKeys.usage}
+      colors={chartColors.usage}
+    />
+  );
 
   return (
-    <div className="flex flex-col w-full min-h-screen">
+    <div className="flex flex-col w-full">
       <header className="bg-gray-100 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-4">
           <ServerIcon className="w-6 h-6 text-gray-500 dark:text-gray-400" />
@@ -47,7 +123,7 @@ export default function Component() {
         </div>
       </header>
       <main className="flex-1 bg-gray-100 dark:bg-gray-800 p-6 grid gap-6">
-        <div className="grid grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 gap-6 min-h-[80vh]">
           {/* 모든 서버 */}
           <MODULE_CardUI
             title="Total Servers"
@@ -78,7 +154,7 @@ export default function Component() {
               value: <span className="text-4xl font-bold">68</span>,
               unit: '%',
             }}
-            bodyContent={<LineChart className="aspect-[4/3]" />}
+            // bodyContent={<LineChart className="aspect-[4/3]" />}
           />
           {/* Memory */}
           <MODULE_CardUI
@@ -87,19 +163,22 @@ export default function Component() {
               value: <span className="text-4xl font-bold">82</span>,
               unit: '%',
             }}
-            bodyContent={<LineChart className="aspect-[4/3]" />}
+            // bodyContent={<LineChart className="aspect-[4/3]" />}
           />
           {/* 디스크 용량 */}
           <MODULE_CardUI
-            title="Disk Usage"
+            title="디스크 사용량"
             status={{
-              value: <span className="text-4xl font-bold">75</span>,
+              value: (
+                <span className="text-4xl font-bold">{percentData.usage}</span>
+              ),
               unit: '%',
             }}
-            bodyContent={<LineChart className="aspect-[4/3]" />}
+            bodyContent={usageChart}
+            // bodyContent={<LineChart className="aspect-[4/3]" />}
           />
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <MODULE_CardUI
             title="Client Site A"
             status={{
@@ -179,7 +258,7 @@ export default function Component() {
               </div>
             }
           />
-        </div>
+        </div> */}
       </main>
     </div>
   );
@@ -201,79 +280,6 @@ function BellIcon(props: any) {
       <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
       <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
     </svg>
-  );
-}
-
-function LineChart(props: any) {
-  return (
-    <div {...props}>
-      <ResponsiveLine
-        data={[
-          {
-            id: 'Desktop',
-            data: [
-              { x: 'Jan', y: 43 },
-              { x: 'Feb', y: 137 },
-              { x: 'Mar', y: 61 },
-              { x: 'Apr', y: 145 },
-              { x: 'May', y: 26 },
-              { x: 'Jun', y: 154 },
-            ],
-          },
-          {
-            id: 'Mobile',
-            data: [
-              { x: 'Jan', y: 60 },
-              { x: 'Feb', y: 48 },
-              { x: 'Mar', y: 177 },
-              { x: 'Apr', y: 78 },
-              { x: 'May', y: 96 },
-              { x: 'Jun', y: 204 },
-            ],
-          },
-        ]}
-        margin={{ top: 10, right: 10, bottom: 40, left: 40 }}
-        xScale={{
-          type: 'point',
-        }}
-        yScale={{
-          type: 'linear',
-        }}
-        axisTop={null}
-        axisRight={null}
-        axisBottom={{
-          tickSize: 0,
-          tickPadding: 16,
-        }}
-        axisLeft={{
-          tickSize: 0,
-          tickValues: 5,
-          tickPadding: 16,
-        }}
-        colors={['#2563eb', '#e11d48']}
-        pointSize={6}
-        useMesh={true}
-        gridYValues={6}
-        theme={{
-          tooltip: {
-            chip: {
-              borderRadius: '9999px',
-            },
-            container: {
-              fontSize: '12px',
-              textTransform: 'capitalize',
-              borderRadius: '6px',
-            },
-          },
-          grid: {
-            line: {
-              stroke: '#f3f4f6',
-            },
-          },
-        }}
-        role="application"
-      />
-    </div>
   );
 }
 

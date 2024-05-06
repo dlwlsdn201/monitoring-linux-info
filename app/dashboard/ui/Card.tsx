@@ -7,7 +7,7 @@ interface Props {
     value: string | ReactNode;
     unit?: string;
   };
-  bodyContent: ReactNode;
+  bodyContent?: ReactNode | undefined;
 }
 
 const MODULE_CardUI = ({ title, status, bodyContent }: Props) => {
