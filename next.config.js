@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
+
+// const path = require('path');
 const nextConfig = {
   webpack: (config, { dev, isServer }) => {
     if (!dev && !isServer) {
@@ -10,6 +12,13 @@ const nextConfig = {
         'react-dom': 'preact/compat',
       });
     }
+    // config.resolve.alias = {
+    //   '@app': path.resolve(__dirname, 'app'),
+    //   '@api': path.resolve(__dirname, 'app/api'),
+    //   '@shared': path.resolve(__dirname, 'app/shared'),
+    //   '@styles': path.resolve(__dirname, 'styles'),
+    //   '@@types': path.resolve(__dirname, 'types'),
+    // };
     return config;
   },
   reactStrictMode: true,

@@ -1,8 +1,7 @@
-import { ServerStatusProps } from '../../../types/server';
+import { ServerDiskStatusProps } from '../../../types/server';
 
 export const parseDiskData = (rawData: string, diskName: string) => {
   const lines: string[] = rawData.trim().split('\n');
-  console.log({ test: rawData });
   if (lines && lines.length > 0) {
     const shiftedLines: string | undefined = lines.shift();
     const headers = shiftedLines && shiftedLines.split(/\s+/);
@@ -38,8 +37,8 @@ export const formatToNumber = (stringData: string) =>
       .join('')
   );
 
-export const diskChartData = (resData: ServerStatusProps) => {
-  const { size, used, avail, capacity, filesystem } = resData?.payload;
+export const diskChartData = (resData: ServerDiskStatusProps) => {
+  const { size, used, avail, capacity, filesystem } = resData;
   const formattedSizeData = formatToNumber(size);
   const formattedUsedData = formatToNumber(used);
   const formattedAvailData = formatToNumber(avail);

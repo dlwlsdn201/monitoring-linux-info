@@ -21,12 +21,14 @@ export const ResponsiveBarChart = ({
   data /* see data tab */,
   keys,
   colors,
+  maxValue,
 }: {
   data: BarDatum[];
   keys: string[];
   colors?: {
     [key: string]: string;
   };
+  maxValue?: number;
 }) => (
   <ResponsiveBar
     data={data}
@@ -35,7 +37,7 @@ export const ResponsiveBarChart = ({
     margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
     padding={0.5}
     enableLabel
-    maxValue="auto"
+    maxValue={maxValue}
     valueScale={{ type: 'linear' }}
     indexScale={{ type: 'band', round: true }}
     valueFormat={(value: number) => `${value} GB`}

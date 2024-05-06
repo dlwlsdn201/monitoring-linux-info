@@ -3,13 +3,16 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import { Avatar, Button } from '@nextui-org/react';
-import MODULE_CardUI from './Card';
+import MODULE_CardUI from '../../shared/Card';
 import { ResponsiveBarChart } from './BarChart';
 import { diskChartData } from '../model/handlers';
 import { useEffect, useState } from 'react';
-import { ServerStatusProps } from '../../../types/server';
+import {
+  ServerDiskStatusProps,
+  ServerStatusProps,
+} from '../../../types/server';
 
-interface initialState {
+interface initialDiskStatusState {
   size: number | '';
   used: number | '';
   avail: number | '';
@@ -20,43 +23,48 @@ interface initialState {
 
 export default function RootUIComponent({
   rawData,
+  timestamp,
 }: {
-  rawData: ServerStatusProps;
+  rawData: ServerDiskStatusProps & any;
+  timestamp: string | undefined;
 }) {
-  const [serverDiskStatus, setServerDiskStatus] = useState<initialState>({
-    size: 0,
-    used: 0,
-    avail: 0,
-    capacity: 0,
-    filesystem: '',
-    timestamp: undefined,
-  });
+  const [serverDiskStatus, setServerDiskStatus] =
+    useState<initialDiskStatusState>({
+      size: 0,
+      used: 0,
+      avail: 0,
+      capacity: 0,
+      filesystem: '',
+      timestamp,
+    });
+
+  // const [serverCpuStatus, setServerCpuStatus] =
 
   // useEffect(() => {
   //   fetchServerStatusData();
   // }, [serverDiskStatus]);
 
-  const initServerStatus = (formattedData: {
+  const initServerDiskStatus = (formattedDiskData: {
     size: number | '';
     used: number | '';
     avail: number | '';
     capacity: number | '';
     filesystem: string;
   }) => {
+    console.log({ formattedDiskData });
     setServerDiskStatus({
-      size: formattedData?.size,
-      used: formattedData?.used,
-      avail: formattedData?.avail,
-      capacity: formattedData?.capacity,
-      filesystem: formattedData?.filesystem,
-      timestamp: rawData?.timestamp,
+      ...serverDiskStatus,
+      size: formattedDiskData?.size,
+      used: formattedDiskData?.used,
+      avail: formattedDiskData?.avail,
+      capacity: formattedDiskData?.capacity,
+      filesystem: formattedDiskData?.filesystem,
     });
   };
 
   useEffect(() => {
-    // console.log({ rawData });
-    const formattedRawData = diskChartData(rawData);
-    initServerStatus(formattedRawData);
+    const formattedRawDiskData = diskChartData(rawData?.diskStatus);
+    initServerDiskStatus(formattedRawDiskData);
   }, [rawData]);
   // if (isPending) {
   //   return <span>Loading...</span>;
@@ -100,6 +108,11 @@ export default function RootUIComponent({
       data={chartData.usage}
       keys={chartKeys.usage}
       colors={chartColors.usage}
+      maxValue={
+        Number.isInteger(serverDiskStatus?.size)
+          ? (serverDiskStatus?.size as number)
+          : undefined
+      }
     />
   );
 

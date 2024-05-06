@@ -1,5 +1,9 @@
-import Dashboard from './components/Dashboard';
+import Dashboard from './ui';
+import { getServerStatusData } from './api/status/functions';
 
-export default async function Dashboardpage() {
-  return <Dashboard />;
+export default async function DashboardPage() {
+  const {
+    data: { payload, timestamp },
+  } = await getServerStatusData();
+  return <Dashboard rawData={payload} timestamp={timestamp} />;
 }

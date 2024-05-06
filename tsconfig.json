@@ -20,7 +20,11 @@
     "noUnusedParameters": true, //쓰지않는 파라미터 있으면 에러내기
     "noImplicitReturns": true, //함수에서 return 빼먹으면 에러내기
     "noFallthroughCasesInSwitch": true, //switch문 이상하면 에러내기
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "skipLibCheck": true,
     "noEmit": true,
     "incremental": true,
@@ -28,11 +32,23 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "baseUrl": ".",
     "paths": {
-      "@": ["./*"],
-      "@app": ["./client/app/*"],
-      "@styles": ["./client/styles/*"],
-      "@@types": ["./client/types/*"]
+      "@app": [
+        "app/*"
+      ],
+      "@api": [
+        "app/api/*"
+      ],
+      "@shared": [
+        "app/shared/*"
+      ],
+      "@styles": [
+        "styles/*"
+      ],
+      "@@types": [
+        "types/*"
+      ]
     },
     "plugins": [
       {
@@ -40,6 +56,13 @@
       }
     ]
   },
-  "exclude": ["node_modules", ".next"],
-  "include": ["**/*.ts", "**/*.tsx", ".next/types/**/*.ts"]
+  "exclude": [
+    "node_modules",
+    ".next"
+  ],
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ]
 }
