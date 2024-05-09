@@ -38,7 +38,7 @@ export const formatToNumber = (stringData: string) =>
   );
 
 export const diskChartData = (resData: ServerDiskStatusProps) => {
-  const { size, used, avail, capacity, filesystem } = resData;
+  const { size, used, avail, capacity, filesystem } = resData || [];
   const formattedSizeData = formatToNumber(size);
   const formattedUsedData = formatToNumber(used);
   const formattedAvailData = formatToNumber(avail);
