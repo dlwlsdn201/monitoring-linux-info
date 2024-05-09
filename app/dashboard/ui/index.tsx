@@ -3,14 +3,15 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import { Avatar, Button } from '@nextui-org/react';
-import MODULE_CardUI from '../../shared/Card';
+// import MODULE_CardUI from '../../shared/Card';
 import { ResponsiveBarChart } from './BarChart';
 import { diskChartData } from '../model/handlers';
 import { useEffect, useState } from 'react';
-import {
-  ServerDiskStatusProps,
-  ServerStatusProps,
-} from '../../../types/server';
+import { ServerDiskStatusProps } from '../../../types/server';
+// import ServerMomoryUsage from '../../widgets/ServerMomoryUsage';
+// import ServerCpuUsage from '../../widgets/ServerCpuUsage';
+import ServerDiskSpaceUsage from '../../widgets/ServerDiskSpaceUsage';
+import { BellIcon, SearchIcon, ServerIcon } from '../../shared/icons';
 
 interface initialDiskStatusState {
   size: number | '';
@@ -21,7 +22,7 @@ interface initialDiskStatusState {
   timestamp: string | undefined;
 }
 
-export default function RootUIComponent({
+export default function Dashboard({
   rawData,
   timestamp,
 }: {
@@ -66,13 +67,6 @@ export default function RootUIComponent({
     const formattedRawDiskData = diskChartData(rawData?.diskStatus);
     initServerDiskStatus(formattedRawDiskData);
   }, [rawData]);
-  // if (isPending) {
-  //   return <span>Loading...</span>;
-  // }
-
-  // if (isError) {
-  //   return <span>Error</span>;
-  // }
 
   const serverName = process.env.NEXT_PUBLIC_TARGET_SERVER_NAME || '';
 
@@ -136,202 +130,20 @@ export default function RootUIComponent({
         </div>
       </header>
       <main className="flex-1 bg-gray-100 dark:bg-gray-800 p-6 grid gap-6">
-        <div className="grid grid-cols-2 gap-6 min-h-[80vh]">
-          {/* 모든 서버 */}
-          <MODULE_CardUI
-            title="Total Servers"
-            status={{ value: '24' }}
-            bodyContent={
-              <div>
-                <div className="flex items-center gap-2">
-                  <ServerIcon className="w-5 h-5 text-gray-500 dark:text-gray-400" />
-                  <span className="text-sm text-gray-500 dark:text-gray-400">
-                    Healthy: 22
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <ServerIcon className="w-5 h-5 text-yellow-500" />
-                  <span className="text-sm text-yellow-500">Warning: 1</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <ServerIcon className="w-5 h-5 text-red-500" />
-                  <span className="text-sm text-red-500">Error: 1</span>
-                </div>
-              </div>
-            }
-          />
+        <div className="grid grid-cols-1 gap-6 min-h-[85vh] max-h-[85vh]">
+          {/* 모든 서버 상태 */}
+          {/* <TotalServerInfo /> */}
           {/* CPU */}
-          <MODULE_CardUI
-            title="CPU Usage"
-            status={{
-              value: <span className="text-4xl font-bold">68</span>,
-              unit: '%',
-            }}
-            // bodyContent={<LineChart className="aspect-[4/3]" />}
-          />
+          {/* <ServerCpuUsage/> */}
           {/* Memory */}
-          <MODULE_CardUI
-            title="Memory Usage"
-            status={{
-              value: <span className="text-4xl font-bold">82</span>,
-              unit: '%',
-            }}
-            // bodyContent={<LineChart className="aspect-[4/3]" />}
-          />
+          {/* <ServerMomoryUsage/> */}
           {/* 디스크 용량 */}
-          <MODULE_CardUI
-            title="디스크 사용량"
-            status={{
-              value: (
-                <span className="text-4xl font-bold">{percentData.usage}</span>
-              ),
-              unit: '%',
-            }}
-            bodyContent={usageChart}
-            // bodyContent={<LineChart className="aspect-[4/3]" />}
+          <ServerDiskSpaceUsage
+            usageRate={percentData?.usage}
+            chartContent={usageChart}
           />
         </div>
-        {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <MODULE_CardUI
-            title="Client Site A"
-            status={{
-              value: (
-                <span className="text-sm text-gray-500 dark:text-gray-400">
-                  Healthy: 22
-                </span>
-              ),
-              unit: '',
-            }}
-            bodyContent={
-              <div className="grid gap-4">
-                <div>
-                  <h3 className="text-sm font-medium mb-2">CPU Usage</h3>
-                  <LineChart className="aspect-[4/3]" />
-                </div>
-                <div>
-                  <h3 className="text-sm font-medium mb-2">Memory Usage</h3>
-                  <LineChart className="aspect-[4/3]" />
-                </div>
-                <div>
-                  <h3 className="text-sm font-medium mb-2">Disk Usage</h3>
-                  <LineChart className="aspect-[4/3]" />
-                </div>
-                <div>
-                  <h3 className="text-sm font-medium mb-2">Network Traffic</h3>
-                  <LineChart className="aspect-[4/3]" />
-                </div>
-              </div>
-            }
-          />
-          <MODULE_CardUI
-            title="Client Site B"
-            status={{ value: 'Warning', unit: '' }}
-            bodyContent={
-              <div className="grid gap-4">
-                <div>
-                  <h3 className="text-sm font-medium mb-2">CPU Usage</h3>
-                  <LineChart className="aspect-[4/3]" />
-                </div>
-                <div>
-                  <h3 className="text-sm font-medium mb-2">Memory Usage</h3>
-                  <LineChart className="aspect-[4/3]" />
-                </div>
-                <div>
-                  <h3 className="text-sm font-medium mb-2">Disk Usage</h3>
-                  <LineChart className="aspect-[4/3]" />
-                </div>
-                <div>
-                  <h3 className="text-sm font-medium mb-2">Network Traffic</h3>
-                  <LineChart className="aspect-[4/3]" />
-                </div>
-              </div>
-            }
-          />
-          <MODULE_CardUI
-            title="Client Site C"
-            status={{ value: 'Error', unit: '' }}
-            bodyContent={
-              <div className="grid gap-4">
-                <div>
-                  <h3 className="text-sm font-medium mb-2">CPU Usage</h3>
-                  <LineChart className="aspect-[4/3]" />
-                </div>
-                <div>
-                  <h3 className="text-sm font-medium mb-2">Memory Usage</h3>
-                  <LineChart className="aspect-[4/3]" />
-                </div>
-                <div>
-                  <h3 className="text-sm font-medium mb-2">Disk Usage</h3>
-                  <LineChart className="aspect-[4/3]" />
-                </div>
-                <div>
-                  <h3 className="text-sm font-medium mb-2">Network Traffic</h3>
-                  <LineChart className="aspect-[4/3]" />
-                </div>
-              </div>
-            }
-          />
-        </div> */}
       </main>
     </div>
-  );
-}
-
-function BellIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round">
-      <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
-      <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
-    </svg>
-  );
-}
-
-function SearchIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round">
-      <circle cx="11" cy="11" r="8" />
-      <path d="m21 21-4.3-4.3" />
-    </svg>
-  );
-}
-
-function ServerIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round">
-      <rect width="20" height="8" x="2" y="2" rx="2" ry="2" />
-      <rect width="20" height="8" x="2" y="14" rx="2" ry="2" />
-      <line x1="6" x2="6.01" y1="6" y2="6" />
-      <line x1="6" x2="6.01" y1="18" y2="18" />
-    </svg>
   );
 }
