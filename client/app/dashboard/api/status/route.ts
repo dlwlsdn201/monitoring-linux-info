@@ -12,6 +12,7 @@ const FILE_SYSTEM = process.env.TARGET_FILE_SYSTEM || '';
 
 // 가용 용량을 확인하는 명령어
 const diskCommand = 'df -h';
+const whichDf = 'which df';
 // 'df -h | awk \'$NF=="/"{printf "%d/%dGB (%s)\n", $3,$2,$5}\'';
 
 // CPU 사용량을 확인하는 명령어
@@ -59,25 +60,26 @@ export async function GET(): Promise<NextResponse> {
     // const { stdout: memory } = await execPromise('free -m');
     // const { stdout: disk } = await execPromise('df -h');
     const disk = await runCommand(diskCommand);
+    const test = await runCommand(whichDf);
     // const cpu = await runCommand(cpuCommand);
 
-    const serverStatusRequests = Promise.all([disk]);
+    const serverStatusRequests = Promise.all([disk, test]);
 
     // // 로깅을 추가하여 결과를 확인
     const [
       diskStatus,
+      testStatus,
       // cpuStatus
     ] = await serverStatusRequests;
-
     const formattedDiskData = parseDiskData(diskStatus, FILE_SYSTEM);
     const timestamp = dayjs().format('YYYY-MM-DD HH:mm');
-
     // const cpuData = cpuStatus;
 
     return NextResponse.json(
       {
         payload: {
           diskStatus: formattedDiskData,
+          testStatus,
           // cpuStatus
         },
         timestamp,

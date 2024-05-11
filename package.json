@@ -1,46 +1,26 @@
 {
-  "name": "next-with-preact",
-  "version": "0.1.0",
+  "name": "monitoring-linux",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "client": "pnpm --filter '{./client}' next dev",
+    "server": "pnpm dev ./server/index.js"
   },
-  "dependencies": {
-    "@next/eslint-plugin-next": "^14.2.2",
-    "@nextui-org/react": "^2.3.5",
-    "@nivo/bar": "^0.85.1",
-    "@nivo/core": "^0.85.1",
-    "@nivo/line": "^0.85.1",
-    "@tanstack/react-query": "^5.32.1",
-    "dayjs": "^1.11.11",
-    "dotenv": "^16.4.5",
-    "framer-motion": "^11.1.7",
-    "next": "14.2.2",
-    "next-plugin-preact": "^3.0.7",
-    "nextui-cli": "^0.1.5",
-    "preact": "^10.20.2",
-    "preact-render-to-string": "^6.4.2",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "react-ssr-prepass": "npm:preact-ssr-prepass@^1.2.1",
-    "regenerator-runtime": "^0.14.1",
-    "systeminformation": "^5.22.7"
+  "engines": {
+    "node": ">=20.11.1",
+    "pnpm": ">=9.1.0"
   },
+  "workspaces": [
+    "client/*",
+    "server/*"
+  ],
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@9.1.0",
   "devDependencies": {
-    "@babel/plugin-transform-react-jsx": "^7.23.4",
-    "@babel/preset-env": "^7.24.4",
-    "@tanstack/eslint-plugin-query": "^5.32.1",
-    "@types/node": "20.12.7",
-    "@types/react": "18.2.79",
-    "autoprefixer": "^10.4.19",
-    "eslint": "9.1.0",
-    "eslint-config-next": "14.2.2",
-    "postcss": "^8.4.38",
-    "prettier": "^3.2.5",
-    "tailwindcss": "^3.4.3",
-    "typescript": "^5.4.5"
+    "pnpm": "^9.1.0"
   }
 }

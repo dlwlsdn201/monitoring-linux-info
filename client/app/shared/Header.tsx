@@ -13,21 +13,21 @@ const Header = () => {
         <span className="sr-only">Acme Inc</span>
       </Link>
       <nav className="font-medium w-full justify-center flex flex-row items-center gap-6 text-sm lg:gap-6">
-        <Link className="text-gray-500 dark:text-gray-400" href="#">
+        {/* <Link className="text-gray-500 dark:text-gray-400" href="#">
           Servers
-        </Link>
-        <Link className="text-gray-500 dark:text-gray-400" href="#">
+        </Link> */}
+        {/* <Link className="text-gray-500 dark:text-gray-400" href="#">
           Monitoring
-        </Link>
+        </Link> */}
         <Link className="font-bold" href="#">
           Dashboard
         </Link>
-        <Link className="text-gray-500 dark:text-gray-400" href="#">
+        {/* <Link className="text-gray-500 dark:text-gray-400" href="#">
           Alerts
         </Link>
         <Link className="text-gray-500 dark:text-gray-400" href="#">
           Settings
-        </Link>
+        </Link> */}
       </nav>
       <div className="flex items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
         <Button className="rounded-full border-none" size="md" variant="ghost">

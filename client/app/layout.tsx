@@ -3,7 +3,7 @@ import '../styles/globals.css';
 import '../styles/dashboard.module.css';
 import { ReactNode } from 'react';
 import { NextUIProvider } from '@nextui-org/react';
-import Header from './shared/Header';
+import WidgetHeader from './widgets/Header';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -15,7 +15,7 @@ export default function Layout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body className={inter.variable}>
-        <Header />
+        <WidgetHeader />
         <NextUIProvider>{children}</NextUIProvider>
       </body>
     </html>

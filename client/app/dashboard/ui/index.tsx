@@ -2,16 +2,16 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-import { Avatar, Button } from '@nextui-org/react';
+// import { Avatar, Button } from '@nextui-org/react';
 // import MODULE_CardUI from '../../shared/Card';
 import { ResponsiveBarChart } from './BarChart';
 import { diskChartData } from '../model/handlers';
 import { useEffect, useState } from 'react';
-import { ServerDiskStatusProps } from '../../../types/server';
 // import ServerMomoryUsage from '../../widgets/ServerMomoryUsage';
 // import ServerCpuUsage from '../../widgets/ServerCpuUsage';
 import ServerDiskSpaceUsage from '../../widgets/ServerDiskSpaceUsage';
-import { BellIcon, SearchIcon, ServerIcon } from '../../shared/icons';
+// import { BellIcon, SearchIcon, ServerIcon } from '../../shared/icons';
+import { ServerDiskStatusProps } from '../../../types/server';
 
 interface initialDiskStatusState {
   size: number | '';
@@ -112,23 +112,6 @@ export default function Dashboard({
 
   return (
     <div className="flex flex-col w-full">
-      <header className="bg-gray-100 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <ServerIcon className="w-6 h-6 text-gray-500 dark:text-gray-400" />
-          <h1 className="text-xl font-semibold">Server Monitoring Dashboard</h1>
-        </div>
-        <div className="flex items-center gap-4">
-          <Button className="rounded-full" size="sm" variant="ghost">
-            <SearchIcon className="w-5 h-5 text-gray-500 dark:text-gray-400" />
-            <span className="sr-only">Search</span>
-          </Button>
-          <Button className="rounded-full" size="sm" variant="ghost">
-            <BellIcon className="w-5 h-5 text-gray-500 dark:text-gray-400" />
-            <span className="sr-only">Notifications</span>
-          </Button>
-          <Avatar name="Avatar" size="sm"></Avatar>
-        </div>
-      </header>
       <main className="flex-1 bg-gray-100 dark:bg-gray-800 p-6 grid gap-6">
         <div className="grid grid-cols-1 gap-6 min-h-[85vh] max-h-[85vh]">
           {/* 모든 서버 상태 */}

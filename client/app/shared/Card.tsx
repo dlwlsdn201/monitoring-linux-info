@@ -11,7 +11,7 @@ interface Props {
   bodyContent?: ReactNode | undefined;
 }
 
-const MODULE_CardUI = ({ title, subTitle, status, bodyContent }: Props) => {
+const MODULE_CardUI = ({ title, status, bodyContent }: Props) => {
   return (
     <Card className="col-span-4 md:col-span-2 lg:col-span-1">
       <CardHeader>
