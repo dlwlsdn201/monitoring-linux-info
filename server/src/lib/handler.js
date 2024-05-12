@@ -1,4 +1,4 @@
-exports.parseDiskData = (rawData, diskName) => {
+export const parseDiskData = (rawData, diskName) => {
   const lines = rawData.trim().split("\n");
   if (lines && lines.length > 0) {
     const shiftedLines = lines.shift();
@@ -23,5 +23,23 @@ exports.parseDiskData = (rawData, diskName) => {
     }
   } else {
     return false;
+  }
+};
+
+import { exec } from "child_process";
+import { promisify } from "util";
+
+export const excuteLinuxCommand = async (command) => {
+  try {
+    const execPromise = promisify(exec);
+    const { stdout, stderr } = await execPromise(command);
+    if (stderr) {
+      console.error("Error in command execution:", stderr);
+      return "";
+    }
+    return stdout.toString().trim();
+  } catch (error) {
+    console.error("Error executing command:", command, error);
+    return "";
   }
 };
