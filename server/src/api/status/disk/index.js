@@ -18,9 +18,7 @@ export const requestDiskStatusAPI = async () => {
     const formattedDiskData = parseDiskData(diskStatus, FILE_SYSTEM);
     const timestamp = dayjs().format("YYYY-MM-DD HH:mm");
     const result = {
-      payload: {
-        diskStatus: formattedDiskData,
-      },
+      payload: formattedDiskData,
       timestamp,
     };
 
