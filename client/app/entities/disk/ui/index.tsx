@@ -1,8 +1,9 @@
-import { diskChartData } from 'client/app/dashboard/model/handlers';
 import { ResponsiveBarChart } from 'client/app/dashboard/ui/BarChart';
 import { useEffect, useState } from 'react';
 import { fetchDiskStatus } from '../api';
 import MODULE_CardUI from 'client/app/shared/Card';
+import { chartColors, chartKeys, serverName } from '../model/chart';
+import { diskChartData } from '../lib/handlers';
 
 interface initialDiskStatusState {
   size: number | '';
@@ -24,7 +25,7 @@ export const ServerDiskStatus = () => {
       timestamp: '',
     });
 
-  const initServerDiskStatus = (formattedDiskData: {
+  const updateStateForChartData = (formattedDiskData: {
     size: number | '';
     used: number | '';
     avail: number | '';
@@ -41,7 +42,6 @@ export const ServerDiskStatus = () => {
     });
   };
 
-  const serverName = process.env.NEXT_PUBLIC_TARGET_SERVER_NAME || '';
   const percentData = {
     usage: serverDiskStatus.capacity,
   };
@@ -54,19 +54,6 @@ export const ServerDiskStatus = () => {
         used: serverDiskStatus.used,
       },
     ],
-  };
-
-  const chartKeys: {
-    [key: string]: string[];
-  } = {
-    usage: ['avail', 'used'],
-  };
-
-  const chartColors = {
-    usage: {
-      avail: '#51b811',
-      used: '#eb5228',
-    },
   };
 
   const usageChart = (
@@ -96,7 +83,7 @@ export const ServerDiskStatus = () => {
     fetchData()
       .then((data) => {
         const formattedRawDiskData = diskChartData(data?.payload);
-        initServerDiskStatus(formattedRawDiskData);
+        updateStateForChartData(formattedRawDiskData);
       })
       .catch((reason) => {
         console.error(reason);
