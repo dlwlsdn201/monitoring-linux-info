@@ -23,6 +23,9 @@ const nextConfig = {
   },
   reactStrictMode: true,
   swcMinify: true,
+  typescript: {
+    tsconfigPath: '../tsconfig.json',
+  },
 
   async redirects() {
     return [
