@@ -9,3 +9,5 @@ export const chartColors = {
     used: '#eb5228',
   },
 };
+
+export const UNIT_CPU = '%';

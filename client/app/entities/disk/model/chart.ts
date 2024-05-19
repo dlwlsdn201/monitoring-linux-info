@@ -11,3 +11,4 @@ export const chartColors = {
   },
 };
 
+export const UNIT_DISK = 'GB';
