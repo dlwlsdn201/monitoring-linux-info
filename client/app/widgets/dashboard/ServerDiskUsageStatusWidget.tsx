@@ -1,4 +1,4 @@
-import { ServerDiskStatus } from 'client/app/entities/disk/ui';
+import { ServerDiskStatus } from 'client/app/entities';
 import React from 'react';
 
 const ServerDiskUsageStatusWidget = () => {
