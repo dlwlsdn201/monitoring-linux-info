@@ -13,7 +13,7 @@ interface Props {
 
 const MODULE_CardUI = ({ title, status, bodyContent }: Props) => {
   return (
-    <Card className="col-span-4 md:col-span-2 lg:col-span-1">
+    <Card className="col-span-4 md:col-span-2 lg:col-span-2">
       <CardHeader>
         <div>
           <h4>{title}</h4>

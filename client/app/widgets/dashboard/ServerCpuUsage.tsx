@@ -1,5 +1,5 @@
+import MODULE_CardUI from 'client/app/shared/Card';
 import React from 'react';
-import MODULE_CardUI from '../shared/Card';
 
 const ServerCpuUsage = () => {
   return (
