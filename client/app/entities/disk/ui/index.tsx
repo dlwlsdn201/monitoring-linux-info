@@ -1,9 +1,10 @@
 import { ResponsiveBarChart } from 'client/app/dashboard/ui/BarChart';
-import { useEffect, useState } from 'react';
-import { fetchDiskStatus } from '../api';
+import { useEffect, useRef, useState } from 'react';
 import MODULE_CardUI from 'client/app/shared/Card';
-import { chartColors, chartKeys, serverName } from '../model/chart';
+import { chartColors, chartKeys } from '../model/chart';
 import { diskChartData } from '../lib/handlers';
+import { serverName } from 'client/app/shared/config';
+import { useData } from '../lib/useData';
 
 interface initialDiskStatusState {
   size: number | '';
@@ -69,25 +70,20 @@ export const ServerDiskStatus = () => {
     />
   );
 
-  const fetchData = async () => {
-    try {
-      const { data, isError, error } = await fetchDiskStatus();
-
-      return data;
-    } catch (error) {
-      throw Error();
-    }
-  };
+  const initRender = useRef(true);
 
   useEffect(() => {
-    fetchData()
-      .then((data) => {
-        const formattedRawDiskData = diskChartData(data?.payload);
-        updateStateForChartData(formattedRawDiskData);
-      })
-      .catch((reason) => {
-        console.error(reason);
-      });
+    if (initRender) {
+      useData()
+        .then(({ data }) => {
+          const formattedRawDiskData = diskChartData(data?.payload);
+          updateStateForChartData(formattedRawDiskData);
+        })
+        .catch((reason) => {
+          console.error(reason);
+        });
+      initRender.current = false;
+    }
   }, []);
 
   return (
