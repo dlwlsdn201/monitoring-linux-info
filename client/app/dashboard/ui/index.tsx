@@ -5,7 +5,7 @@ dotenv.config();
 // import { Avatar, Button } from '@nextui-org/react';
 // import MODULE_CardUI from '../../shared/Card';
 import ServerDiskUsageStatusWidget from 'client/app/widgets/dashboard/ServerDiskUsageStatusWidget';
-import ServerCpuUsage from 'client/app/widgets/dashboard/ServerCpuUsage';
+import ServerCpuUsageStatusWidget from 'client/app/widgets/dashboard/ServerCpuUsageStatusWidget';
 // import { getServerDiskStatusData } from '../api/status/functions';
 
 export default function Dashboard() {
@@ -16,7 +16,7 @@ export default function Dashboard() {
           {/* 모든 서버 상태 */}
           {/* <TotalServerInfo /> */}
           {/* CPU */}
-          <ServerCpuUsage />
+          <ServerCpuUsageStatusWidget />
           {/* Memory */}
           {/* <ServerMomoryUsage/> */}
           {/* 디스크 용량 */}

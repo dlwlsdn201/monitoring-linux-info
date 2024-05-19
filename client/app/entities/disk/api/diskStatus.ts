@@ -1,14 +1,15 @@
 import { BASE_API_URL } from 'client/config';
-import { ServerDiskStatusProps } from '../../../../types/server';
+import { ServerDiskStatusResponseData } from '../../../../types/server';
+import dayjs from 'dayjs';
 
 export const fetchDiskStatus = async (): Promise<{
   isError: boolean;
-  data: { payload: ServerDiskStatusProps; timestamp: string };
+  data: ServerDiskStatusResponseData;
   error: string | unknown;
 }> => {
   let result: {
     isError: boolean;
-    data: { payload: ServerDiskStatusProps; timestamp: string };
+    data: ServerDiskStatusResponseData;
     error: string | unknown;
   } = {
     isError: false,
@@ -31,8 +32,12 @@ export const fetchDiskStatus = async (): Promise<{
     });
     if (response.ok) {
       const resData = await response.json();
-      result.data.payload = resData.payload;
-      result.data.timestamp = resData.timestamp;
+      const timestamp = dayjs().format('YYYY-MM-DD HH:mm:ss');
+      result.data = {
+        ...result.data,
+        payload: resData.payload,
+        timestamp,
+      };
     } else {
       throw Error();
     }
