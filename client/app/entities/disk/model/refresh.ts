@@ -1,1 +1,1 @@
-export const refreshInterval = 1000; // 1분
+export const refreshInterval = 60000; // 1분

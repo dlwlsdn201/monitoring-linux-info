@@ -1,4 +1,6 @@
 export const useRefetch = (fetchAPIFunction: Function, interval: number) => {
+  fetchAPIFunction(); // initial Call
+
   const intervalId = setInterval(fetchAPIFunction, interval); // 60초마다 fetch
 
   const clearRefetchInterval = () => clearInterval(intervalId);
