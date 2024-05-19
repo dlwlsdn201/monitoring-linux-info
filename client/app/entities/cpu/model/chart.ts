@@ -11,3 +11,5 @@ export const chartColors = {
 };
 
 export const UNIT_CPU = '%';
+
+export const Y_AXIS_LABEL = 'CPU';

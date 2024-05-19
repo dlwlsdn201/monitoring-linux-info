@@ -20,12 +20,14 @@ const getColor = ({
 export const BarChart = ({
   data /* see data tab */,
   unit,
+  yAxisLabel,
   keys,
   colors,
   maxValue,
 }: {
   data: BarDatum[];
   unit: '%' | 'GB';
+  yAxisLabel: string;
   keys: string[];
   colors?: {
     [key: string]: string;
@@ -84,7 +86,7 @@ export const BarChart = ({
       tickSize: 5,
       tickPadding: 5,
       tickRotation: 0,
-      legend: 'disk space (GB)',
+      legend: `${yAxisLabel} (${unit})`,
       legendPosition: 'middle',
       legendOffset: -45,
       truncateTickAt: 0,

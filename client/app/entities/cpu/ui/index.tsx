@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import MODULE_CardUI from 'client/app/shared/Card';
 import { serverName } from 'client/app/shared/config';
-import { UNIT_CPU, chartColors, chartKeys } from '../model/chart';
+import { UNIT_CPU, Y_AXIS_LABEL, chartColors, chartKeys } from '../model/chart';
 import { useCpuData } from '../lib/useCpuData';
 import { useRefetch } from 'client/app/shared/hooks/refetch';
 import { refreshInterval } from '../model/refresh';
@@ -37,6 +37,7 @@ export const ServerCpuStatus = () => {
   const usageChart = (
     <BarChart
       unit={UNIT_CPU}
+      yAxisLabel={Y_AXIS_LABEL}
       data={chartData.usage}
       keys={chartKeys.usage}
       colors={chartColors.usage}

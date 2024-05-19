@@ -1,3 +1,8 @@
+export interface commonServerStatusProps {
+  payload: any;
+  timestamp: string | undefined;
+}
+
 export interface ServerDiskStatusProps {
   size: string;
   used: string;
@@ -6,10 +11,13 @@ export interface ServerDiskStatusProps {
   filesystem: string;
 }
 
-export interface ServerStatusProps {
+export interface ServerDiskStatusResponseData extends commonServerStatusProps {
+  payload: ServerDiskStatusProps;
+}
+
+export interface ServerCpuResponseData extends commonServerStatusProps {
   payload: {
-    diskStatus: ServerDiskStatusProps;
-    cpuStatus: any;
+    totalCpuUsageRate: number;
+    topProcesses: any[];
   };
-  timestamp: string | undefined;
 }

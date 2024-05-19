@@ -12,3 +12,5 @@ export const chartColors = {
 };
 
 export const UNIT_DISK = 'GB';
+
+export const Y_AXIS_LABEL = 'Space';

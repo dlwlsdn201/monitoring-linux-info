@@ -1,6 +1,11 @@
 import { useEffect, useState } from 'react';
 import MODULE_CardUI from 'client/app/shared/Card';
-import { UNIT_DISK, chartColors, chartKeys } from '../model/chart';
+import {
+  UNIT_DISK,
+  Y_AXIS_LABEL,
+  chartColors,
+  chartKeys,
+} from '../model/chart';
 import { diskChartData } from '../lib/handlers';
 import { serverName } from 'client/app/shared/config';
 import { useData } from '../lib/useData';
@@ -69,6 +74,7 @@ export const ServerDiskStatus = () => {
   const usageChart = (
     <BarChart
       unit={UNIT_DISK}
+      yAxisLabel={Y_AXIS_LABEL}
       data={chartData.usage}
       keys={chartKeys.usage}
       colors={chartColors.usage}
