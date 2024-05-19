@@ -21,7 +21,7 @@ const nextConfig = {
     // };
     return config;
   },
-  reactStrictMode: true,
+  reactStrictMode: false,
   swcMinify: true,
   typescript: {
     tsconfigPath: '../tsconfig.json',
