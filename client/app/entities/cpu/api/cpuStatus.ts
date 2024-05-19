@@ -1,4 +1,5 @@
 import { BASE_API_URL } from 'client/config';
+import dayjs from 'dayjs';
 
 export const fetchCpuStatus = async (): Promise<{
   isError: boolean;
@@ -24,7 +25,12 @@ export const fetchCpuStatus = async (): Promise<{
     console.log({ response });
     if (response.ok) {
       const resData = await response.json();
-      result.data.payload = resData.payload;
+      const timestamp = dayjs().format('YYYY-MM-DD HH:mm:ss');
+      result.data = {
+        ...result.data,
+        payload: resData.payload,
+        timestamp,
+      };
     } else {
       throw Error();
     }

@@ -5,7 +5,8 @@ import { chartColors, chartKeys } from '../model/chart';
 import { diskChartData } from '../lib/handlers';
 import { serverName } from 'client/app/shared/config';
 import { useData } from '../lib/useData';
-import { refreshInteval } from '../model/refresh';
+import { refreshInterval } from '../model/refresh';
+import { useRefetch } from 'client/app/shared/hooks/refetch';
 
 interface initialDiskStatusState {
   size: number | '';
@@ -79,7 +80,6 @@ export const ServerDiskStatus = () => {
   );
 
   useEffect(() => {
-    let intervalId;
     const fetchData = async () => {
       try {
         useData()
@@ -98,10 +98,8 @@ export const ServerDiskStatus = () => {
       }
     };
 
-    fetchData();
-    intervalId = setInterval(fetchData, refreshInteval); // 60초마다 fetch
-
-    return () => clearInterval(intervalId);
+    // data fetch 주기 설정
+    useRefetch(fetchData, refreshInterval);
   }, []);
 
   useEffect;
