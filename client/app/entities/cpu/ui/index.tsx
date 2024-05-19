@@ -1,9 +1,11 @@
-import { ResponsiveBarChart } from 'client/app/dashboard/ui/BarChart';
 import { useEffect, useState } from 'react';
 import MODULE_CardUI from 'client/app/shared/Card';
 import { serverName } from 'client/app/shared/config';
-import { chartColors, chartKeys } from '../model/chart';
+import { UNIT_CPU, chartColors, chartKeys } from '../model/chart';
 import { useCpuData } from '../lib/useCpuData';
+import { useRefetch } from 'client/app/shared/hooks/refetch';
+import { refreshInterval } from '../model/refresh';
+import { BarChart } from 'client/app/shared/ui/chart';
 
 interface initialDiskStatusState {
   totalCpuUsageRate: number;
@@ -33,7 +35,8 @@ export const ServerCpuStatus = () => {
   };
 
   const usageChart = (
-    <ResponsiveBarChart
+    <BarChart
+      unit={UNIT_CPU}
       data={chartData.usage}
       keys={chartKeys.usage}
       colors={chartColors.usage}
@@ -42,8 +45,9 @@ export const ServerCpuStatus = () => {
   );
 
   useEffect(() => {
-    useCpuData()
-      .then(({ data, error }) => {
+    const fetchData = async () => {
+      try {
+        const { data, error } = await useCpuData();
         if (data && !error) {
           const updateState = {
             totalCpuUsageRate: data?.payload?.totalCpuUsageRate,
@@ -51,13 +55,17 @@ export const ServerCpuStatus = () => {
             timestamp: data?.timestamp,
           };
           setServerCpuStatus(updateState);
+        } else {
+          throw Error();
         }
-      })
-      .catch(({ error }) => {
+      } catch (error) {
         console.error(error);
-      });
+      }
+    };
+
+    useRefetch(fetchData, refreshInterval);
   }, []);
-  console.log({ serverCpuStatus });
+
   return (
     <MODULE_CardUI
       title="CPU 사용량"

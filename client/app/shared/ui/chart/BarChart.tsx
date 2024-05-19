@@ -17,13 +17,15 @@ const getColor = ({
   }
   return '#000000';
 };
-export const ResponsiveBarChart = ({
+export const BarChart = ({
   data /* see data tab */,
+  unit,
   keys,
   colors,
   maxValue,
 }: {
   data: BarDatum[];
+  unit: '%' | 'GB';
   keys: string[];
   colors?: {
     [key: string]: string;
@@ -40,7 +42,7 @@ export const ResponsiveBarChart = ({
     maxValue={maxValue}
     valueScale={{ type: 'linear' }}
     indexScale={{ type: 'band', round: true }}
-    valueFormat={(value: number) => `${value} GB`}
+    valueFormat={(value: number) => `${value} ${unit}`}
     colors={(chartInfo) => getColor({ chartInfo, colors })}
     colorBy="id"
     // defs={[
