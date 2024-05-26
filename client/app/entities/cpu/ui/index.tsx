@@ -34,13 +34,23 @@ export const ServerCpuStatus = () => {
     ],
   };
 
+  const setColor = (currentValue: number): { [key: string]: string } => {
+    let color;
+    if (currentValue < 40) color = chartColors.usage['normal'];
+    else if (40 <= currentValue && currentValue < 70)
+      color = chartColors.usage['caution'];
+    else color = chartColors.usage['danger'];
+
+    return { used: color };
+  };
+
   const usageChart = (
     <BarChart
       unit={UNIT_CPU}
       yAxisLabel={Y_AXIS_LABEL}
       data={chartData.usage}
       keys={chartKeys.usage}
-      colors={chartColors.usage}
+      colors={setColor(serverCpuStatus.totalCpuUsageRate)}
       maxValue={100}
     />
   );
@@ -66,7 +76,6 @@ export const ServerCpuStatus = () => {
 
     useRefetch(fetchData, refreshInterval);
   }, []);
-  console.log({ usageChart });
 
   return (
     <MODULE_CardUI

@@ -6,8 +6,8 @@ export const chartKeys: {
 
 export const chartColors = {
   usage: {
-    avail: '#51b811',
-    used: '#eb5228',
+    avail: '#63c863',
+    used: '#f39f3a',
   },
 };
 
