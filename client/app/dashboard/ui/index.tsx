@@ -18,7 +18,7 @@ export default function Dashboard() {
           {/* CPU */}
           <ServerCpuUsageStatusWidget />
           {/* Memory */}
-          {/* <ServerMomoryUsage/> */}
+          {/* <ServerMemoryUsage/> */}
           {/* 디스크 용량 */}
           <ServerDiskUsageStatusWidget />
         </div>

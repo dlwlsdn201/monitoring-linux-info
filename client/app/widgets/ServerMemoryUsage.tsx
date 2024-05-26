@@ -1,7 +1,7 @@
 import React from 'react';
 import MODULE_CardUI from '../shared/Card';
 
-const ServerMomoryUsage = () => {
+const ServerMemoryUsage = () => {
   return (
     <MODULE_CardUI
       title="Memory Usage"
@@ -14,4 +14,4 @@ const ServerMomoryUsage = () => {
   );
 };
 
-export default ServerMomoryUsage;
+export default ServerMemoryUsage;
