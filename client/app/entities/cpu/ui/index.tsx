@@ -66,6 +66,7 @@ export const ServerCpuStatus = () => {
 
     useRefetch(fetchData, refreshInterval);
   }, []);
+  console.log({ usageChart });
 
   return (
     <MODULE_CardUI

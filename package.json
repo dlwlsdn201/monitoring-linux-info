@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "client": "pnpm --filter '{./client}' next dev",
-    "server": "pnpm dev ./server/index.js"
+    "server": "pnpm nodemon --exec babel-node ./server/server.js"
   },
   "engines": {
     "node": ">=20.11.1",
